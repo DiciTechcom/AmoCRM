@@ -39,8 +39,7 @@ class HTTPRequest {
 
   onResponse(callback) {
     let rawData = ''
-    // TODO: ESLint: Arrow function should not return assignment       no-return-assign
-    const onResponseData = chunk => rawData += chunk
+    const onResponseData = chunk => { rawData += chunk }
     // TODO: ESLint: Unexpected literal in error position of callback  node/no-callback-literal
     const onRequestEnd = response => () => callback({ response, rawData })
 
