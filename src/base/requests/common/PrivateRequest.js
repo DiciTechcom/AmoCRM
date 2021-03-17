@@ -53,4 +53,4 @@ class PrivateRequest {
   }
 }
 
-export default HTTPRequest
+export default PrivateRequest
