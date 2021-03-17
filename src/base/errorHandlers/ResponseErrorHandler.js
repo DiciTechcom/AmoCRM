@@ -1,27 +1,27 @@
 class ResponseErrorHandler {
-  constructor( response, responseInfo ) {
-    this._response = response;
-    this._responseInfo = responseInfo;
+  constructor(response, responseInfo) {
+    this._response = response
+    this._responseInfo = responseInfo
   }
 
   handleErrors() {
-    if ( !this.hasErrors()) {
-      return;
+    if (!this.hasErrors()) {
+      return
     }
-    throw this.getFirstError();
+    throw this.getFirstError()
   }
 
   getErrorsData() {
-    return true;
+    return true
   }
 
   hasErrors() {
-    return false;
+    return false
   }
 
   getFirstError() {
-    return new Error( 'Parse response error' );
+    return new Error('Parse response error')
   }
 }
 
-export default ResponseErrorHandler;
+export default ResponseErrorHandler

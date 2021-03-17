@@ -1,5 +1,5 @@
-import schema from '../../routes/v2';
-import RemoveableEntityResource from '../../base/resources/RemovableEntityResource';
+import schema from '../../routes/v2'
+import RemoveableEntityResource from '../../base/resources/RemovableEntityResource'
 
 class ContactResource extends RemoveableEntityResource {
   static path = schema.entities.contacts.path;
@@ -7,4 +7,4 @@ class ContactResource extends RemoveableEntityResource {
   static ENTITY_TYPE = 17;
 }
 
-export default ContactResource;
+export default ContactResource

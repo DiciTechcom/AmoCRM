@@ -1,47 +1,51 @@
-import http from 'http';
-import url from 'url';
-import EventResource from './../EventResource';
+import http from 'http'
+import url from 'url'
+import EventResource from './../EventResource'
 
 class AuthServer extends EventResource {
-  constructor( options ) {
-    super();
-    this._options = options;
+  constructor(options) {
+    super()
+    this._options = options
   }
+
   run() {
-    const { port } = this._options,
-      handler = this.handle.bind( this ),
-      onListenStart = this.onListenStart.bind( this );
+    const { port } = this._options
+    const handler = this.handle.bind(this)
+    const onListenStart = this.onListenStart.bind(this)
     this._server = http
-      .createServer( handler )
-      .listen( port, onListenStart );
+      .createServer(handler)
+      .listen(port, onListenStart)
   }
+
   onListenStart() {
     // const { port } = this._options;
     // console.log( `listening on port ${port}` );
   }
+
   stop() {
-    return new Promise(( resolve, reject ) =>
-      this._server.close()
-        .on( 'close', resolve )
-        .on( 'error', reject )
-    );
+    return new Promise((resolve, reject) => this._server.close()
+      .on('close', resolve)
+      .on('error', reject),
+    )
   }
-  handle( request, response ) {
-    const { query } = url.parse( request.url, true ),
-      currentState = this._options.state,
-      { code, state } = query;
-    response.end();
-    if ( !code ) {
-      return;
+
+  handle(request, response) {
+    // TODO: ESLint: 'url.parse' was deprecated since v11.0.0. Use 'url.URL' constructor instead  node/no-deprecated-api
+    const { query } = url.parse(request.url, true)
+    const currentState = this._options.state
+    const { code, state } = query
+    response.end()
+    if (!code) {
+      return
     }
-    if ( currentState && state !== currentState ) {
-      return;
+    if (currentState && state !== currentState) {
+      return
     }
-    this.triggerEvent( 'code', {
+    this.triggerEvent('code', {
       code,
-      state
-    });
+      state,
+    })
   }
 }
 
-export default AuthServer;
+export default AuthServer

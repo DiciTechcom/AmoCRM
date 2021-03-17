@@ -1,35 +1,35 @@
-import qs from 'qs';
-import DomainRequest from './DomainRequest';
-import HTTPRequest from '../common/HTTPRequest';
-import PrivateDomainResponseHandler from '../../responseHandlers/PrivateDomainResponseHandler';
+import qs from 'qs'
+import DomainRequest from './DomainRequest'
+import HTTPRequest from '../common/HTTPRequest'
+import PrivateDomainResponseHandler from '../../responseHandlers/PrivateDomainResponseHandler'
 
 class PrivateDomainRequest extends DomainRequest {
   static responseHandlerClass = PrivateDomainResponseHandler;
   static NETWORK_PROTOCOL = 'https';
 
-  request( url, data = {}, method = 'GET', options = {}) {
-    if ( options.formData ) {
-      return this.requestWithFormData( url, data, method, options );
+  request(url, data = {}, method = 'GET', options = {}) {
+    if (options.formData) {
+      return this.requestWithFormData(url, data, method, options)
     }
-    return super.request( url, data, method, options );
+    return super.request(url, data, method, options)
   }
 
-  requestWithFormData( url, data = {}, method = 'GET', options = {}) {
+  requestWithFormData(url, data = {}, method = 'GET', options = {}) {
     const headers = {
-      ...this.getDefaultHeaders( options ),
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-    };
-    const encodedData = qs.stringify( data ),
-      request = this.createFormRequest( url, encodedData, method, headers );
-    return this.addRequestToQueue( request, options.response );
+      ...this.getDefaultHeaders(options),
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    }
+    const encodedData = qs.stringify(data)
+    const request = this.createFormRequest(url, encodedData, method, headers)
+    return this.addRequestToQueue(request, options.response)
   }
 
   createFormRequest(url, data = {}, method = 'GET', headers = {}) {
-    const isGET = method === 'GET',
-      protocol = this.constructor.NETWORK_PROTOCOL,
-      secure = protocol === 'https',
-      path = isGET ? url+'?'+this.encodeData( data ) : url,
-      hostname = this._hostname;
+    const isGET = method === 'GET'
+    const protocol = this.constructor.NETWORK_PROTOCOL
+    const secure = protocol === 'https'
+    const path = isGET ? `${url}?${this.encodeData(data)}` : url
+    const hostname = this._hostname
 
     return new HTTPRequest({
       hostname,
@@ -37,9 +37,9 @@ class PrivateDomainRequest extends DomainRequest {
       data,
       method,
       headers,
-      secure
-    });
+      secure,
+    })
   }
 }
 
-export default PrivateDomainRequest;
+export default PrivateDomainRequest

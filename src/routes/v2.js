@@ -8,29 +8,29 @@ export default {
       deleteOnePath: '/private/deals/delete.php',
     },
     contacts: {
-      path: '/api/v2/contacts'
+      path: '/api/v2/contacts',
     },
     companies: {
-      path: '/api/v2/companies'
+      path: '/api/v2/companies',
     },
     customers: {
-      path: '/api/v2/customers'
+      path: '/api/v2/customers',
     },
     tasks: {
-      path: '/api/v2/tasks'
+      path: '/api/v2/tasks',
     },
     notes: {
-      path: '/api/v2/notes'
+      path: '/api/v2/notes',
     },
     fields: {
-      path: '/api/v2/fields'
+      path: '/api/v2/fields',
     },
     pipelines: {
       getPath: '/api/v2/pipelines',
       insertPath: '/private/api/v2/json/pipelines/set',
       updatePath: '/private/api/v2/json/pipelines/set',
-      deletePath: '/private/api/v2/json/pipelines/delete'
-    }
+      deletePath: '/private/api/v2/json/pipelines/delete',
+    },
   },
   unsorted: {
     get: '/api/v2/incoming_leads',
@@ -38,6 +38,6 @@ export default {
     add: '/api/v2/incoming_leads/sip',
     addFromForm: '/api/v2/incoming_leads/form',
     accept: '/api/v2/incoming_leads/accept',
-    decline: '/api/v2/incoming_leads/decline'
-  }
-};
+    decline: '/api/v2/incoming_leads/decline',
+  },
+}

@@ -1,3 +1,5 @@
+/* eslint new-cap: "warn" */
+
 class ResourceFactory {
   static entityClass;
   /**
@@ -8,17 +10,17 @@ class ResourceFactory {
   /**
    * @param connection {AmoConnection}
    */
-  constructor( connection ) {
-    const { resourceClass } = this.constructor;
+  constructor(connection) {
+    const { resourceClass } = this.constructor
     /**
      * @param _resource {RemoteResource}
      */
-    this._resource = new resourceClass( connection );
+    this._resource = new resourceClass(connection)
   }
 
-  create( attributes={}) {
-    return new this.constructor.entityClass( this._resource, attributes );
+  create(attributes = {}) {
+    return new this.constructor.entityClass(this._resource, attributes)
   }
 }
 
-export default ResourceFactory;
+export default ResourceFactory

@@ -1,8 +1,8 @@
-import DomainResponseHandler from './DomainResponseHandler';
-import PrivateDomainResponseErrorHandler from '../errorHandlers/PrivateDomainResponseErrorHandler';
+import DomainResponseHandler from './DomainResponseHandler'
+import PrivateDomainResponseErrorHandler from '../errorHandlers/PrivateDomainResponseErrorHandler'
 
 class PrivateDomainResponseHandler extends DomainResponseHandler {
   static errorHandlerClass = PrivateDomainResponseErrorHandler;
 }
 
-export default PrivateDomainResponseHandler;
+export default PrivateDomainResponseHandler

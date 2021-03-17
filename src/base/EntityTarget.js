@@ -1,7 +1,7 @@
 class EntityTarget {
-  constructor( type ) {
-    this.type = type;
+  constructor(type) {
+    this.type = type
   }
 }
 
-export default EntityTarget;
+export default EntityTarget

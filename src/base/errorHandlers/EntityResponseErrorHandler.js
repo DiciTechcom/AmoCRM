@@ -1,33 +1,32 @@
-import ResponseErrorHandler from './ResponseErrorHandler';
+import ResponseErrorHandler from './ResponseErrorHandler'
 
 class EntityResponseErrorHandler extends ResponseErrorHandler {
-
   getErrorsData() {
-    return this._response._embedded && this._response._embedded.errors;
+    return this._response._embedded && this._response._embedded.errors
   }
 
   hasErrors() {
-    const errors = this.getErrorsData();
-    return Boolean( errors );
+    const errors = this.getErrorsData()
+    return Boolean(errors)
   }
 
   getFirstError() {
-    const errors = this.getErrorsData(),
-      errorsNamespace = Object.keys( errors )[ 0 ],
-      errorsList = errors[ errorsNamespace ];
+    const errors = this.getErrorsData()
+    const errorsNamespace = Object.keys(errors)[0]
+    const errorsList = errors[errorsNamespace]
 
-    if ( Array.isArray( errorsList )) {
-      const [ firstError ] = errorsList,
-        { message, code } = firstError;
+    if (Array.isArray(errorsList)) {
+      const [firstError] = errorsList
+      const { message, code } = firstError
 
-      return new Error( `${errorsNamespace} failed with code ${code}: ${message}`, code );
+      return new Error(`${errorsNamespace} failed with code ${code}: ${message}`, code)
     }
 
-    const firstErrorKey = Object.keys( errorsList )[ 0 ],
-      message = errorsList[ firstErrorKey ];
+    const firstErrorKey = Object.keys(errorsList)[0]
+    const message = errorsList[firstErrorKey]
 
-    return new Error( `${errorsNamespace} failed for key ${firstErrorKey}: ${message}` );
+    return new Error(`${errorsNamespace} failed for key ${firstErrorKey}: ${message}`)
   }
 }
 
-export default EntityResponseErrorHandler;
+export default EntityResponseErrorHandler

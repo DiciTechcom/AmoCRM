@@ -3,6 +3,6 @@ export default {
   auth: {
     login: '',
     password: '',
-    hash: ''
-  }
+    hash: '',
+  },
 }
