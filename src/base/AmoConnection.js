@@ -132,9 +132,7 @@ class AmoConnection extends EventResource {
     } = this._options
     const token = this.getToken()
     if (!token) {
-      console.log('no token')
-      // TODO: ESLint: Expected the Promise rejection reason to be an Error  prefer-promise-reject-errors
-      return Promise.reject('no token')
+      return Promise.reject(new Error('No token'))
     }
     const { refresh_token } = token
     const data = {
