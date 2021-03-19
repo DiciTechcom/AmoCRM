@@ -30,10 +30,9 @@ class AuthServer extends EventResource {
   }
 
   handle(request, response) {
-    // TODO: ESLint: 'url.parse' was deprecated since v11.0.0. Use 'url.URL' constructor instead  node/no-deprecated-api
-    const { query } = url.parse(request.url, true)
+    const _url = new url.URL(request.url)
     const currentState = this._options.state
-    const { code, state } = query
+    const { code, state } = _url.searchParams
     response.end()
     if (!code) {
       return
