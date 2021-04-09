@@ -1,15 +1,14 @@
 /* eslint new-cap: "warn" */
 
-'use strict'
-
+import { EventEmitter } from 'events'
 import Queue from 'promise-queue'
 import qs from 'qs'
 
 import HTTPRequest from '../common/HTTPRequest'
 import DomainResponseHandler from '../../responseHandlers/DomainResponseHandler'
-import EventResource from '../../EventResource'
 
-class DomainRequest extends EventResource {
+// TODO: использовать axios
+class DomainRequest extends EventEmitter {
   static responseHandlerClass = DomainResponseHandler;
   static DEFAULT_USER_AGENT = 'amoCRM-API-client/1.0';
 

@@ -1,7 +1,7 @@
-'use strict'
 import http from 'http'
 import https from 'https'
 
+// TODO: использовать axios
 class PrivateRequest {
   constructor(options) {
     this._options = options

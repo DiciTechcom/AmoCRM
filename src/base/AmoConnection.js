@@ -1,22 +1,20 @@
-'use strict'
-
+import { EventEmitter } from 'events'
 import qs from 'qs'
 import schema from '../routes/v4'
-import EventResource from './EventResource'
 import PrivateDomainRequest from './requests/domain/PrivateDomainRequest'
 import AuthServer from './auth/AuthServer'
 
-class AmoConnection extends EventResource {
-  static EVENTS = [
-    'beforeConnect',
-    'beforeFetchToken',
-    'beforeRefreshToken',
-    'newToken',
-    'checkToken',
-    'authError',
-    'connected',
-    'error',
-  ];
+class AmoConnection extends EventEmitter {
+  static EVENTS = {
+    BEFORE_CONNECT: 'beforeConnect',
+    BEFORE_FETCH_TOKEN: 'beforeFetchToken',
+    BEFORE_REFRESH_TOKEN: 'beforeRefreshToken',
+    NEW_TOKEN: 'newToken',
+    CHECK_TOKEN: 'checkToken',
+    AUTH_ERROR: 'authError',
+    CONNECTED: 'connected',
+    ERROR: 'error',
+  };
 
   constructor(options = {}) {
     super()
@@ -37,7 +35,7 @@ class AmoConnection extends EventResource {
       return this.connect()
     }
 
-    this.triggerEvent('checkToken', true)
+    this.emit(AmoConnection.EVENTS.CHECK_TOKEN, true)
 
     if (this.isRequestExpired()) {
       return this.refreshToken()
@@ -103,7 +101,7 @@ class AmoConnection extends EventResource {
   }
 
   fetchToken() {
-    this.triggerEvent('beforeFetchToken', this)
+    this.emit(AmoConnection.EVENTS.BEFORE_FETCH_TOKEN, this)
     const {
       client_id,
       client_secret,
@@ -124,7 +122,7 @@ class AmoConnection extends EventResource {
   }
 
   refreshToken() {
-    this.triggerEvent('beforeRefreshToken', this)
+    this.emit(this.BEFORE_REFRESH_TOKEN, this)
     const {
       client_id,
       client_secret,
@@ -169,7 +167,7 @@ class AmoConnection extends EventResource {
       ...response,
       data: token,
     }
-    this.triggerEvent('newToken', event)
+    this.emit(AmoConnection.EVENTS.NEW_TOKEN, event)
     this.setToken(token)
   }
 
@@ -208,7 +206,7 @@ class AmoConnection extends EventResource {
       return Promise.resolve(true)
     }
 
-    this.triggerEvent('beforeConnect', this)
+    this.emit(AmoConnection.EVENTS.BEFORE_CONNECT, this)
     this._lastConnectionRequestAt = new Date()
 
     if (!this._code && this._options.server) {
@@ -224,7 +222,7 @@ class AmoConnection extends EventResource {
         const { data = {} } = response
         if (data && data.token_type) {
           this._lastRequestAt = new Date()
-          this.triggerEvent('connected', this)
+          this.emit(AmoConnection.EVENTS.CONNECTED, this)
           this._isConnected = true
           return Promise.resolve(true)
         }
@@ -232,8 +230,8 @@ class AmoConnection extends EventResource {
         const e = new Error('Auth Error')
         e.data = data
 
-        this.triggerEvent('authError', e, this)
-        this.triggerEvent('error', e, this)
+        this.emit(AmoConnection.EVENTS.AUTH_ERROR, e, this)
+        this.emit(AmoConnection.EVENTS.ERROR, e, this)
 
         return Promise.reject(e)
       })

@@ -1,5 +1,3 @@
-'use strict'
-
 import BaseActiveRecord from '../../base/activeRecords/BaseActiveRecord'
 
 class Field extends BaseActiveRecord {

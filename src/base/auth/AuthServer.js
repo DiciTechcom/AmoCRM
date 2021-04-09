@@ -1,8 +1,8 @@
+import { EventEmitter } from 'events'
 import http from 'http'
 import url from 'url'
-import EventResource from './../EventResource'
 
-class AuthServer extends EventResource {
+class AuthServer extends EventEmitter {
   constructor(options) {
     super()
     this._options = options
@@ -40,7 +40,7 @@ class AuthServer extends EventResource {
     if (currentState && state !== currentState) {
       return
     }
-    this.triggerEvent('code', {
+    this.emit('code', {
       code,
       state,
     })
