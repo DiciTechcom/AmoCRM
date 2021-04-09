@@ -1,9 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {
+exports["default"] = void 0;
+var _default = {
   auth: '/private/api/auth.php?type=json',
   account: '/api/v2/account',
   multiactions: '/ajax/v1/multiactions/set',
@@ -46,3 +47,4 @@ exports.default = {
     decline: '/api/v2/incoming_leads/decline'
   }
 };
+exports["default"] = _default;

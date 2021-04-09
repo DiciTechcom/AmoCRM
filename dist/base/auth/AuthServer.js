@@ -1,60 +1,70 @@
-'use strict';
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _events = require("events");
 
-var _http = require('http');
+var _http = _interopRequireDefault(require("http"));
 
-var _http2 = _interopRequireDefault(_http);
+var _url2 = _interopRequireDefault(require("url"));
 
-var _url = require('url');
-
-var _url2 = _interopRequireDefault(_url);
-
-var _EventResource2 = require('./../EventResource');
-
-var _EventResource3 = _interopRequireDefault(_EventResource2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var AuthServer = function (_EventResource) {
-  _inherits(AuthServer, _EventResource);
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var AuthServer = /*#__PURE__*/function (_EventEmitter) {
+  _inherits(AuthServer, _EventEmitter);
+
+  var _super = _createSuper(AuthServer);
 
   function AuthServer(options) {
+    var _this;
+
     _classCallCheck(this, AuthServer);
 
-    var _this = _possibleConstructorReturn(this, (AuthServer.__proto__ || Object.getPrototypeOf(AuthServer)).call(this));
-
+    _this = _super.call(this);
     _this._options = options;
     return _this;
   }
 
   _createClass(AuthServer, [{
-    key: 'run',
+    key: "run",
     value: function run() {
-      var port = this._options.port,
-          handler = this.handle.bind(this),
-          onListenStart = this.onListenStart.bind(this);
-
-      this._server = _http2.default.createServer(handler).listen(port, onListenStart);
+      var port = this._options.port;
+      var handler = this.handle.bind(this);
+      var onListenStart = this.onListenStart.bind(this);
+      this._server = _http["default"].createServer(handler).listen(port, onListenStart);
     }
   }, {
-    key: 'onListenStart',
-    value: function onListenStart() {
-      // const { port } = this._options;
+    key: "onListenStart",
+    value: function onListenStart() {// const { port } = this._options;
       // console.log( `listening on port ${port}` );
     }
   }, {
-    key: 'stop',
+    key: "stop",
     value: function stop() {
       var _this2 = this;
 
@@ -63,22 +73,25 @@ var AuthServer = function (_EventResource) {
       });
     }
   }, {
-    key: 'handle',
+    key: "handle",
     value: function handle(request, response) {
-      var _url$parse = _url2.default.parse(request.url, true),
-          query = _url$parse.query,
-          currentState = this._options.state,
-          code = query.code,
-          state = query.state;
+      var _url = new _url2["default"].URL(request.url);
 
+      var currentState = this._options.state;
+      var _url$searchParams = _url.searchParams,
+          code = _url$searchParams.code,
+          state = _url$searchParams.state;
       response.end();
+
       if (!code) {
         return;
       }
+
       if (currentState && state !== currentState) {
         return;
       }
-      this.triggerEvent('code', {
+
+      this.emit('code', {
         code: code,
         state: state
       });
@@ -86,6 +99,7 @@ var AuthServer = function (_EventResource) {
   }]);
 
   return AuthServer;
-}(_EventResource3.default);
+}(_events.EventEmitter);
 
-exports.default = AuthServer;
+var _default = AuthServer;
+exports["default"] = _default;

@@ -1,24 +1,24 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _http = _interopRequireDefault(require("http"));
 
-var _http = require('http');
+var _https = _interopRequireDefault(require("https"));
 
-var _http2 = _interopRequireDefault(_http);
-
-var _https = require('https');
-
-var _https2 = _interopRequireDefault(_https);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var HTTPRequest = function () {
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+// TODO: использовать axios
+var HTTPRequest = /*#__PURE__*/function () {
   function HTTPRequest(options) {
     _classCallCheck(this, HTTPRequest);
 
@@ -26,24 +26,23 @@ var HTTPRequest = function () {
   }
 
   _createClass(HTTPRequest, [{
-    key: 'send',
+    key: "send",
     value: function send() {
       var _this = this;
 
-      var _options = this._options,
-          hostname = _options.hostname,
-          path = _options.path,
-          _options$method = _options.method,
-          method = _options$method === undefined ? 'GET' : _options$method,
-          _options$headers = _options.headers,
-          headers = _options$headers === undefined ? {} : _options$headers,
-          _options$data = _options.data,
-          data = _options$data === undefined ? '' : _options$data,
-          _options$secure = _options.secure,
-          secure = _options$secure === undefined ? false : _options$secure,
-          driver = secure ? _https2.default : _http2.default,
-          isGET = method === 'GET';
-
+      var _this$_options = this._options,
+          hostname = _this$_options.hostname,
+          path = _this$_options.path,
+          _this$_options$method = _this$_options.method,
+          method = _this$_options$method === void 0 ? 'GET' : _this$_options$method,
+          _this$_options$header = _this$_options.headers,
+          headers = _this$_options$header === void 0 ? {} : _this$_options$header,
+          _this$_options$data = _this$_options.data,
+          data = _this$_options$data === void 0 ? '' : _this$_options$data,
+          _this$_options$secure = _this$_options.secure,
+          secure = _this$_options$secure === void 0 ? false : _this$_options$secure;
+      var driver = secure ? _https["default"] : _http["default"];
+      var isGET = method === 'GET';
       return new Promise(function (resolve, reject) {
         var request = driver.request({
           hostname: hostname,
@@ -51,15 +50,17 @@ var HTTPRequest = function () {
           method: method,
           headers: headers
         }, _this.onResponse(resolve, reject));
+
         if (!isGET) {
           request.write(data);
         }
+
         request.on('error', _this.onError(reject));
         request.end();
       });
     }
   }, {
-    key: 'onError',
+    key: "onError",
     value: function onError(callback) {
       return function (_ref) {
         var error = _ref.error;
@@ -67,15 +68,21 @@ var HTTPRequest = function () {
       };
     }
   }, {
-    key: 'onResponse',
+    key: "onResponse",
     value: function onResponse(callback) {
       var rawData = '';
+
       var onResponseData = function onResponseData(chunk) {
-        return rawData += chunk;
-      },
-          onRequestEnd = function onRequestEnd(response) {
+        rawData += chunk;
+      }; // TODO: ESLint: Unexpected literal in error position of callback  node/no-callback-literal
+
+
+      var onRequestEnd = function onRequestEnd(response) {
         return function () {
-          return callback({ response: response, rawData: rawData });
+          return callback({
+            response: response,
+            rawData: rawData
+          });
         };
       };
 
@@ -89,4 +96,5 @@ var HTTPRequest = function () {
   return HTTPRequest;
 }();
 
-exports.default = HTTPRequest;
+var _default = HTTPRequest;
+exports["default"] = _default;
